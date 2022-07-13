@@ -48,6 +48,11 @@ func updateFunctionFactory(pathPrefix string, updatable []string) func(context.C
 				patch["delta_sharing_recipient_token_lifetime_in_seconds"] =
 					d.Get("delta_sharing_recipient_token_lifetime_in_seconds")
 			}
+
+			if field == "storage_location" && old != new && d.Get("table_type") == "MANAGED" {
+				continue
+			}
+
 			patch[field] = new
 		}
 		if len(patch) == 0 {
